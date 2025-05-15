@@ -12,10 +12,12 @@ const SaveToken = () => {
     if (token) {
       localStorage.setItem("accessToken", token);
       sessionStorage.setItem("isAuthenticated", "true");
+
+      // You can change to /upload or /creator-dashboard if needed
       navigate("/dashboard");
     } else {
       alert("Login failed: token not found.");
-      navigate("/");
+      navigate("/login");
     }
   }, [location, navigate]);
 

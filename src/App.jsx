@@ -1,19 +1,20 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
 import SaveToken from "./pages/SaveToken";
+import Dashboard from "./pages/Dashboard";
 import EditorUpload from "./pages/EditorUpload";
 import CreatorDashboard from "./pages/CreatorDashboard";
-import UploadPage from "./pages/UploadPage"; // Optional if different from Editor
-import UploadForm from "./pages/UploadForm";  // Optional if used
+import UploadPage from "./pages/UploadPage";
+import UploadForm from "./pages/UploadForm";
+import PrivateRoute from "./pages/PrivateRoute"; // ✅
+import Approval from "./pages/Approval";
+import EditorDashboard from "./pages/EditorDashboard";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    setIsAuthenticated(!!token);
     if (token) {
       sessionStorage.setItem("isAuthenticated", "true");
     }
@@ -22,13 +23,67 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Login />} />
         <Route path="/save-token" element={<SaveToken />} />
-        <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
-        <Route path="/editor-upload" element={isAuthenticated ? <EditorUpload /> : <Navigate to="/" />} />
-        <Route path="/creator-dashboard" element={isAuthenticated ? <CreatorDashboard /> : <Navigate to="/" />} />
-        <Route path="/upload-page" element={isAuthenticated ? <UploadPage /> : <Navigate to="/" />} />
-        <Route path="/upload-form" element={isAuthenticated ? <UploadForm /> : <Navigate to="/" />} />
+
+        {/* Protected Routes (use PrivateRoute) */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/editor-upload"
+          element={
+            <PrivateRoute>
+              <EditorUpload />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/creator-dashboard"
+          element={
+            <PrivateRoute>
+              <CreatorDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/upload-page"
+          element={
+            <PrivateRoute>
+              <UploadPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/upload-form"
+          element={
+            <PrivateRoute>
+              <UploadForm />
+            </PrivateRoute>
+          }
+        />
+        <Route 
+        path="/approval" 
+        element={
+          <PrivateRoute>
+            <Approval />
+          </PrivateRoute>
+        } 
+        />
+        <Route 
+        path="/editor-dashboard" 
+        element={
+        <PrivateRoute>
+          <EditorDashboard />
+        </PrivateRoute>
+      }
+      />
       </Routes>
     </BrowserRouter>
   );
