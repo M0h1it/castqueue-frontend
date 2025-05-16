@@ -6,11 +6,11 @@ import SaveToken from "./pages/SaveToken";
 import Dashboard from "./pages/Dashboard";
 import EditorUpload from "./pages/EditorUpload";
 import CreatorDashboard from "./pages/CreatorDashboard";
-import UploadPage from "./pages/UploadPage";
 import UploadForm from "./pages/UploadForm";
 import PrivateRoute from "./pages/PrivateRoute"; // ✅
 import Approval from "./pages/Approval";
 import EditorDashboard from "./pages/EditorDashboard";
+import ManageEditor from './pages/ManageEditor';
 
 function App() {
   useEffect(() => {
@@ -53,14 +53,6 @@ function App() {
           }
         />
         <Route
-          path="/upload-page"
-          element={
-            <PrivateRoute>
-              <UploadPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
           path="/upload-form"
           element={
             <PrivateRoute>
@@ -84,6 +76,14 @@ function App() {
         </PrivateRoute>
       }
       />
+      <Route 
+      path="/manage-editors" 
+      element={
+        <PrivateRoute>
+          <ManageEditor />
+        </PrivateRoute>
+        } 
+        />
       </Routes>
     </BrowserRouter>
   );
